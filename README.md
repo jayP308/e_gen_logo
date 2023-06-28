@@ -37,8 +37,6 @@ https://drive.google.com/file/d/1vdI-jkfLfO02A6jetUbWsjNRH94J6o9-/view
 
 <img src="./images/svg-sample.png" />
 
-<img src="./images/svg-sample2.png" />
-
 ## Contributors
 Junnel R. Padilla, UC Berkeley Bootcamp Modules, ChatGPT
   
