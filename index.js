@@ -1,61 +1,70 @@
-const SVG = require('svg.js');
-const inquirer = require('inquirer');
-const fs = require('fs');
+import fs from 'fs';
+import { createSVGWindow } from 'svgdom';
+import { SVG, registerWindow } from '@svgdotjs/svg.js';
+import inquirer from 'inquirer';
 
-function makeLogo () {
-    // Prompt for choosing 3 characters for logo
-    const text = prompt('Choose three characters for text logo: ');
+async function makeLogo() {
+  // Create an SVG window
+  const window = createSVGWindow();
+  const document = window.document;
 
-    // Prompt for choosing the color of the text
-    const colorText = prompt('Choose the text of the color(can be hexadecimal number): ');
+  // Register the SVG window to work with svg.js
+  registerWindow(window, document);
 
-    // Prompt for asking the user for shapes
-    const shapeType = parseInt(prompt('Choose the shape of your logo: '));
+  const questions = [
+    {
+      type: 'input',
+      name: 'text',
+      message: 'Choose three characters for text logo: ',
+      validate: function (input) {
+        if (input.length <= 3) {
+          return true;
+        }
+        return 'Please choose three characters.';
+      }
+    },
+    {
+      type: 'input',
+      name: 'colorText',
+      message: 'Choose the color of the text (can be hexadecimal number): '
+    },
+    {
+      type: 'list',
+      name: 'shape',
+      message: 'Choose the shape of your logo: ',
+      choices: ['circle', 'triangle', 'square']
+    },
+    {
+      type: 'input',
+      name: 'shapeColor',
+      message: 'Choose the color of the shape (can be hexadecimal number): '
+    },
+  ];
 
-    // Choices for shapes
-    let shape;
-    switch(shapeType) {
-        case 1:
-            shape = 'circle';
-            break;
-        case 2:
-            shape = 'square';
-            break;
-        case 3:
-            shape = 'triangle';
-            break;
-        case 4:
-            shape = 'rectangle';
-            break;
-        default:
-            console.log('Must choose one!')
-            return;
-    }
+  const userChoices = await inquirer.prompt(questions);
+  const { text, colorText, shape, shapeColor } = userChoices;
 
-    // Prompt for choosing a color for the shape
-    const shapeColor = prompt('Choose the color of the shape(can be hexadecimal number): ');
+  // Creating SVG Document using svg.js
+  const canvas = SVG(document.documentElement).size(400, 400);
 
-    // Creating SVG Document
-    const svg = SVG().size(300, 200);
+  switch (shape) {
+    case 'triangle':
+      canvas.polygon('100,0 200,200 0,200').move(85, 25).fill(shapeColor);
+      break;
+    case 'square':
+      canvas.rect(165, 150).move(100, 75).fill(shapeColor);
+      break;
+    case 'circle':
+      canvas.circle(200).move(85, 50).fill(shapeColor);
+      break;
+  }
 
-    switch(shape) {
-        case 'triangle':
-            svg.polygon('100,0 200,200 0,200').fill(shapeColor);
-            break;
-        case 'square':
-            svg.rect(150, 150).move(75, 75).fill(shapeColor);
-            break;
-        case 'circle':
-            svg.circle(100).move(100, 50).fill(shapeColor);
-            break;
-    }
+  canvas.text(text).move(150 - text.length * 0, 150).font({ fill: colorText, family: 'monospace', size: 40 });
 
-    svg.text(text).move(150 - (text.length * 10), 125).font({fill: colorText, family: 'monospace', size: 30 });
+  const svgString = canvas.svg();
+  fs.writeFileSync('logo.svg', svgString);
 
-    fs.writeFileSync('logo.svg', svg.svg());
-
-    console.log('Logo Generated!')
-
+  console.log('Logo Generated!');
 }
 
 makeLogo();
