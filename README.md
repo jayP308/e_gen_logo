@@ -5,7 +5,7 @@
 * [Description](#usage)
 * [Installation](#installation)
 * [Test](#test)
-* [Screenshots](#screenshot)
+* [Screenshots](#screenshots)
 * [Contributors](#contributors)
 * [License](#license)
 * [Contacts](#contacts)
@@ -14,7 +14,7 @@
 This app is use to create a logo for user
   
 ## Description
-This app includes a series of question of what the user wants to include in the logo. Once the user opens the console, they will be prompted to include 3 letters to include in the logo, follow but the color of the text, shape, and the color of the shape and a logo.svg file will be created and right click on the logo.svg file and open with live server. Follow the installation process under installation section and under test section, there is a tutorial link on how to use the console
+This app includes a series of question of what the user wants to include in the logo. Once the user opens the console, they will be prompted to include 3 letters to include in the logo, follow but the color of the text, shape, and the color of the shape and a logo.svg file will be created and right click on the logo.svg file and open with live server. Follow the installation process under installation section and under test section, there is a tutorial link on how to use the console. 
   
 ## Installation
 Repo: https://github.com/jayP308/e_gen_logo
